@@ -55,16 +55,19 @@
             android:id="@+id/editTextAmountOne"
             android:layout_gravity="center"
             android:layout_weight="1"
-            android:hint="Enter Amount" />
+            android:hint="Enter Amount"
+            android:singleLine="true" />
         <EditText
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:inputType="numberDecimal"
+            android:inputType="none|numberDecimal"
             android:ems="10"
             android:id="@+id/editTextAmountTwo"
             android:layout_gravity="center"
             android:layout_weight="1"
-            android:hint="Enter Amount" />
+            android:hint="Enter Amount"
+            android:enabled="false"
+            android:singleLine="true" />
     </LinearLayout>
     </LinearLayout>
 

@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity implements CountryListDialog
     private static String currency_symbol_one = "USD";
     private static String currency_symbol_two = "KRW";
 
-    private final String[] currency_list = getResources().getStringArray(R.array.country_array);
+    private String[] currency_list;
     private ArrayList<String> currency_list_al = new ArrayList<String>();
 
     DatabaseHandler db;
@@ -41,6 +41,7 @@ public class MainActivity extends AppCompatActivity implements CountryListDialog
         db = new DatabaseHandler(this);
 
         setCurrencyValues();
+        currency_list = getResources().getStringArray(R.array.country_array);
         for(int i=0; i < currency_list.length ;i++) {
             currency_list_al.add(currency_list[i]);
         }
@@ -66,29 +67,16 @@ public class MainActivity extends AppCompatActivity implements CountryListDialog
 
                 String in = editTextAmountOne.getText().toString();
                 if (in != "" && in != null && !in.isEmpty()) {
-                    updateValues(in,1);
+                    float value_A = Float.valueOf(in.trim().split(" ")[0]);
+                    float currency_rate_A = db.getCurrency(currency_symbol_one);
+                    float currency_rate_B = db.getCurrency(currency_symbol_two);
+                    currency_rate_B = currency_rate_B / currency_rate_A;
+                    float value_B = value_A * currency_rate_B;
+                    editTextAmountTwo.setText(value_B + " " + currency_symbol_two);
                 }
             }
         });
-        editTextAmountTwo.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                String in = editTextAmountOne.getText().toString();
-                if (in != "" && in != null && !in.isEmpty()) {
-                    updateValues(in,2);
-                }
-            }
-        });
     }
 
     private void setCurrencyValues(){
@@ -177,25 +165,7 @@ public class MainActivity extends AppCompatActivity implements CountryListDialog
             currency_symbol_two = currency;
     }
 
-    private void updateValues(String in,int type){
-        if(type ==1){
-            float value_A = Float.valueOf(in.trim().split(" ")[0]);
-            float currency_rate_A = db.getCurrency(currency_symbol_one);
-            float currency_rate_B = db.getCurrency(currency_symbol_two);
-            currency_rate_B = currency_rate_B / currency_rate_A;
-            float value_B = value_A * currency_rate_B;
-            editTextAmountTwo.setText(value_B + " " + currency_symbol_two);
-        }
-        else if(type==2){
-            float value_B = Float.valueOf(in.trim().split(" ")[0]);
-            float currency_rate_A = db.getCurrency(currency_symbol_one);
-            float currency_rate_B = db.getCurrency(currency_symbol_two);
-            currency_rate_A = currency_rate_A / currency_rate_B;
-            float value_A = value_B * currency_rate_A;
-            editTextAmountTwo.setText(value_A + " " + currency_symbol_one);
-        }
 
-    }
 
 
 }
