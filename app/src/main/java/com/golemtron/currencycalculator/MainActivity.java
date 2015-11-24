@@ -1,6 +1,9 @@
 package com.golemtron.currencycalculator;
 
+import android.app.Fragment;
+import android.app.FragmentManager;
 import android.content.res.XmlResourceParser;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -119,6 +122,9 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void imageBtnCountryOne(View view){
+
+                DialogFragment dialog = new CountryListDialogFragment();
+                dialog.show(getSupportFragmentManager(),"fragment_country_select");
 
     }
     public void imageBtnCountryTwo(View view){
