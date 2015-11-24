@@ -82,6 +82,22 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         // return country
         return country;
     }
+    // Getting single Country
+    public float getCurrency(String symbol) {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.query(TABLE_COUNTRY, new String[] { KEY_ID,
+                        KEY_NAME, KEY_COUNTRY_POSTFIX,KEY_DOLLAR_EQUIVALENT }, KEY_COUNTRY_POSTFIX + "=?",
+                new String[] { String.valueOf(symbol) }, null, null, null, null);
+        if (cursor != null)
+            cursor.moveToFirst();
+        else return 0;
+
+        Country country = new Country(Integer.parseInt(cursor.getString(0)),
+                cursor.getString(1), cursor.getString(2),cursor.getFloat(3));
+        // return country
+        return country.getDollarEquivalent();
+    }
 
     // Getting All Countries
     public List<Country> getAllCountries() {
